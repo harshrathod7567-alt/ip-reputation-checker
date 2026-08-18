@@ -17,11 +17,44 @@ def check_ip(ip_address):
     
     return data["data"]
 
-ip = "8.8.8.8"  # Google's public DNS, safe test IP
-result = check_ip(ip)
+def check_multiple_ips(ip_list):
+    results = []
+    for ip in ip_list:
+        try:
+            result = check_ip(ip)
+            score = result["abuseConfidenceScore"]
+            
+            if score >= 75:
+                risk = "HIGH RISK"
+            elif score >= 25:
+                risk = "MEDIUM RISK"
+            else:
+                risk = "LOW RISK"
+            
+            results.append({
+                "ip": result["ipAddress"],
+                "score": score,
+                "risk": risk,
+                "country": result.get("countryCode", "Unknown"),
+                "reports": result["totalReports"]
+            })
+        except Exception as e:
+            results.append({"ip": ip, "error": str(e)})
+    
+    return results
 
-print(f"IP: {result['ipAddress']}")
-print(f"Abuse Confidence Score: {result['abuseConfidenceScore']}%")
-print(f"Country: {result.get('countryCode', 'Unknown')}")
-print(f"Total Reports: {result['totalReports']}")
-print(f"Is Public: {result['isPublic']}")
+# Test with a few IPs (mix of safe and known-flagged test IPs)
+ips_to_check = ["8.8.8.8", "1.1.1.1"]
+
+results = check_multiple_ips(ips_to_check)
+
+print("=== IP Reputation Check ===\n")
+for r in results:
+    if "error" in r:
+        print(f"{r['ip']}: ERROR - {r['error']}")
+    else:
+        print(f"IP: {r['ip']}")
+        print(f"  Risk: {r['risk']} (score: {r['score']}%)")
+        print(f"  Country: {r['country']}")
+        print(f"  Reports: {r['reports']}")
+        print()
