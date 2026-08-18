@@ -43,18 +43,24 @@ def check_multiple_ips(ip_list):
     
     return results
 
-# Test with a few IPs (mix of safe and known-flagged test IPs)
-ips_to_check = ["8.8.8.8", "1.1.1.1"]
+def write_report(results, output_file="ip_report.txt"):
+    with open(output_file, 'w') as f:
+        f.write("=== IP Reputation Report ===\n\n")
+        for r in results:
+            if "error" in r:
+                f.write(f"{r['ip']}: ERROR - {r['error']}\n\n")
+            else:
+                f.write(f"IP: {r['ip']}\n")
+                f.write(f"  Risk: {r['risk']} (score: {r['score']}%)\n")
+                f.write(f"  Country: {r['country']}\n")
+                f.write(f"  Reports: {r['reports']}\n\n")
+    print(f"Report saved to {output_file}")
 
+ips_to_check = ["8.8.8.8", "1.1.1.1"]
 results = check_multiple_ips(ips_to_check)
 
 print("=== IP Reputation Check ===\n")
 for r in results:
-    if "error" in r:
-        print(f"{r['ip']}: ERROR - {r['error']}")
-    else:
-        print(f"IP: {r['ip']}")
-        print(f"  Risk: {r['risk']} (score: {r['score']}%)")
-        print(f"  Country: {r['country']}")
-        print(f"  Reports: {r['reports']}")
-        print()
+    print(r)
+
+write_report(results)
