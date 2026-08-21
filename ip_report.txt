@@ -1,0 +1,17 @@
+=== IP Reputation Report ===
+
+IP: 8.8.8.8
+  Risk: LOW RISK (score: 0%)
+  Country: US
+  Reports: 0
+
+IP: 1.1.1.1
+  Risk: LOW RISK (score: 0%)
+  Country: US
+  Reports: 0
+
+IP: 198.51.100.7
+  Risk: HIGH RISK (score: 82%)
+  Country: RU
+  Reports: 143
+
