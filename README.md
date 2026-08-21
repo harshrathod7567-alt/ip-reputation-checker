@@ -16,7 +16,7 @@ intelligence database to assess risk level — a real technique used in SOC tria
 
 ## Setup
 1. Sign up for a free API key at [abuseipdb.com](https://www.abuseipdb.com)
-2. Create a `config.py` file in this folder with: `API_KEY = "your_key_here"`
+2. Create a `config.py` file in this folder with: `API_KEY = "dbbaa545f7c614fc0b38b616cd5a8773d417d68cbd9d289bbbf388186caafefb6af6e458deead323"`
 3. Install dependencies: `pip install requests`
 
 ## How to run it
